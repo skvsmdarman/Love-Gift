@@ -11,7 +11,7 @@ function Seal({ className = "", alt = "Heart and wildflower seal" }: { className
   return <img className={`brand-seal ${className}`} src={sealPath} alt={alt} />;
 }
 
-const letterScript = `// Today is Batool's birthday.
+const letterScript = `// Everything My heart knows.
 
 Two months ago, I entered a random voice chat with no big plan — I only wanted a bit of random conversation. Then the admins muted me, and honestly, it pissed me off. While I was looking around, I heard a familiar voice — yours.
 
