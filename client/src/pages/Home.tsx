@@ -37,9 +37,20 @@ const writingLogs = [
   { at: 0.12, label: "remembering the first hello", detail: "random voice chat · two months ago" },
   { at: 0.31, label: "keeping the honest parts", detail: "arguments · understanding · return" },
   { at: 0.54, label: "writing what you mean to me", detail: "the little happinesses" },
-  { at: 0.76, label: "making a birthday wish", detail: "today is Batool's birthday" },
+  { at: 0.76, label: "making a birthday wish", detail: "a birthday made for my girl" },
   { at: 0.96, label: "sealing the letter", detail: "signed with love · Arman" }
 ];
+
+const buildLines = [
+  { tone: "comment", text: "// making a small birthday page, one line at a time" },
+  { tone: "code", text: "const heart = open('everything my heart knows')" },
+  { tone: "code", text: "const memory = find('a random voice chat')" },
+  { tone: "remove", text: "title = 'Today is Batool's birthday'" },
+  { tone: "add", text: "title = \"My girl's birthday\"" },
+  { tone: "code", text: "place(photo, 'somewhere close')" },
+  { tone: "code", text: "write('happy birthday, beautiful')" },
+  { tone: "comment", text: "// ready for you" }
+] as const;
 
 const storyCards = [
   {
@@ -66,11 +77,16 @@ export default function Home() {
   const [started, setStarted] = useState(false);
   const [typedCharacters, setTypedCharacters] = useState(0);
   const [lightSent, setLightSent] = useState(false);
+  const [buildLineIndex, setBuildLineIndex] = useState(0);
+  const [buildCharacterIndex, setBuildCharacterIndex] = useState(0);
+  const [buildComplete, setBuildComplete] = useState(false);
   const letterRef = useRef<HTMLPreElement>(null);
   const writtenSceneRef = useRef<HTMLElement>(null);
+  const buildEditorRef = useRef<HTMLDivElement>(null);
   const isComplete = typedCharacters >= letterScript.length;
   const visibleLetter = useMemo(() => letterScript.slice(0, typedCharacters), [typedCharacters]);
   const progress = typedCharacters / letterScript.length;
+  const buildProgress = Math.min(1, (buildLineIndex + (buildCharacterIndex / (buildLines[buildLineIndex]?.text.length || 1))) / buildLines.length);
   const activeLog = [...writingLogs].reverse().find((log) => progress >= log.at) ?? writingLogs[0];
 
   useEffect(() => {
@@ -89,6 +105,40 @@ export default function Home() {
       });
     }
   }, [visibleLetter]);
+
+  useEffect(() => {
+    if (buildComplete) return;
+    const activeBuildLine = buildLines[buildLineIndex];
+
+    if (!activeBuildLine) {
+      const finishTimer = window.setTimeout(() => setBuildComplete(true), 700);
+      return () => window.clearTimeout(finishTimer);
+    }
+
+    if (buildCharacterIndex < activeBuildLine.text.length) {
+      const character = activeBuildLine.text[buildCharacterIndex];
+      const delay = /[()'",]/.test(character) ? 34 : 18;
+      const typeTimer = window.setTimeout(() => setBuildCharacterIndex((current) => current + 1), delay);
+      return () => window.clearTimeout(typeTimer);
+    }
+
+    const lineTimer = window.setTimeout(() => {
+      setBuildLineIndex((current) => current + 1);
+      setBuildCharacterIndex(0);
+    }, activeBuildLine.tone === "remove" ? 680 : 220);
+    return () => window.clearTimeout(lineTimer);
+  }, [buildComplete, buildLineIndex, buildCharacterIndex]);
+
+  useEffect(() => {
+    if (buildEditorRef.current) {
+      buildEditorRef.current.scrollTop = buildEditorRef.current.scrollHeight;
+    }
+  }, [buildLineIndex, buildCharacterIndex]);
+
+  useEffect(() => {
+    document.body.classList.toggle("build-intro-active", !buildComplete);
+    return () => document.body.classList.remove("build-intro-active");
+  }, [buildComplete]);
 
   const moveToLetter = () => {
     window.setTimeout(() => {
@@ -114,8 +164,15 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const skipBuild = () => {
+    setBuildLineIndex(buildLines.length);
+    setBuildCharacterIndex(0);
+    setBuildComplete(true);
+  };
+
   return (
-    <main className="lantern-letter">
+    <>
+    <main className={`lantern-letter ${buildComplete ? "" : "is-building"}`} aria-hidden={!buildComplete}>
       <section className="opening" aria-labelledby="main-title">
         <div className="ambient-orb ambient-orb-one" />
         <div className="ambient-orb ambient-orb-two" />
@@ -130,7 +187,7 @@ export default function Home() {
         <div className="hero-split">
           <div className="hero-copy">
             <p className="eyebrow"><span /> A private birthday letter</p>
-            <h1 id="main-title">Today is <em>Batool's birthday.</em></h1>
+            <h1 id="main-title">My girl's <em>birthday.</em></h1>
             <p className="hero-intro">
               The birthday of the girl who turned one unexpected hello into a place I want to come back to, every day.
             </p>
@@ -255,5 +312,26 @@ export default function Home() {
         <Seal alt="" />
       </footer>
     </main>
+    {!buildComplete && (
+      <aside className="build-overlay" aria-label="Building a birthday page for Batool">
+        <div className="build-overlay-glow" aria-hidden="true" />
+        <div className="build-overlay-content">
+          <div className="build-header">
+            <div className="build-identity"><Seal alt="" /><span>arman.build / birthday-gift</span></div>
+            <button className="build-skip" onClick={skipBuild}>skip intro</button>
+          </div>
+          <div className="build-window">
+            <div className="build-window-top"><span className="build-dots"><i /><i /><i /></span><span>batool-birthday.tsx</span><span>{Math.round(buildProgress * 100)}% built</span></div>
+            <div className="build-editor" ref={buildEditorRef} aria-live="polite">
+              {buildLines.slice(0, buildLineIndex).map((line, index) => <div className={`build-line is-${line.tone}`} key={`${line.text}-${index}`}>{line.tone === "remove" && "− "}{line.tone === "add" && "+ "}{line.text}</div>)}
+              {buildLines[buildLineIndex] && <div className={`build-line is-${buildLines[buildLineIndex].tone} is-typing`}>{buildLines[buildLineIndex].tone === "remove" && "− "}{buildLines[buildLineIndex].tone === "add" && "+ "}{buildLines[buildLineIndex].text.slice(0, buildCharacterIndex)}<span className="build-cursor">|</span></div>}
+            </div>
+            <div className="build-status"><span>{buildLineIndex >= buildLines.length ? "the page is ready" : "writing the little details…"}</span><div className="build-progress"><i style={{ width: `${buildProgress * 100}%` }} /></div></div>
+          </div>
+          <p className="build-message">A small page is taking shape behind this note.</p>
+        </div>
+      </aside>
+    )}
+    </>
   );
 }
