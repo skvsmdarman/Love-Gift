@@ -67,6 +67,7 @@ export default function Home() {
   const [typedCharacters, setTypedCharacters] = useState(0);
   const [lightSent, setLightSent] = useState(false);
   const letterRef = useRef<HTMLPreElement>(null);
+  const writtenSceneRef = useRef<HTMLElement>(null);
   const isComplete = typedCharacters >= letterScript.length;
   const visibleLetter = useMemo(() => letterScript.slice(0, typedCharacters), [typedCharacters]);
   const progress = typedCharacters / letterScript.length;
@@ -82,13 +83,23 @@ export default function Home() {
 
   useEffect(() => {
     if (letterRef.current) {
-      letterRef.current.scrollTop = letterRef.current.scrollHeight;
+      const letterPanel = letterRef.current;
+      window.requestAnimationFrame(() => {
+        letterPanel.scrollTop = letterPanel.scrollHeight;
+      });
     }
   }, [visibleLetter]);
+
+  const moveToLetter = () => {
+    window.setTimeout(() => {
+      writtenSceneRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+  };
 
   const beginLetter = () => {
     setTypedCharacters(0);
     setStarted(true);
+    moveToLetter();
   };
 
   const skipWriting = () => {
@@ -164,7 +175,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="written-scene" aria-labelledby="written-title">
+      <section className="written-scene" ref={writtenSceneRef} tabIndex={-1} aria-labelledby="written-title">
         <div className="scene-header">
           <p className="eyebrow"><span /> Written while you watch</p>
           <h2 id="written-title">Watch this letter become <em>yours.</em></h2>
@@ -182,7 +193,7 @@ export default function Home() {
             <div className="code-footnote">{started ? activeLog.detail : "Every line is true. Every word is yours."}</div>
           </div>
           <div className="desk-ephemera">
-            <img src="/manus-storage/batool-polaroid-table_fef064df.jpg" alt="A birthday letter, rose petal, and candle" />
+            <img src="/assets/batool-polaroid-table.jpg" alt="A birthday letter, rose petal, and candle" />
             <p>“The best surprises are the people who make us feel less alone.”</p>
             <div className="wax-seal"><Seal alt="" /></div>
           </div>
