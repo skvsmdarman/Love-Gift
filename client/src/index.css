@@ -1,0 +1,177 @@
+/**
+ * Lantern Letter design: contemporary analog editorial with paper texture, ink navy, and Lantern Mulberry.
+ * Mobile uses a single reading path; desktop becomes an asymmetric live-letter desk.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --radius: 0.9rem;
+}
+
+:root {
+  --background: #101217;
+  --foreground: #f4eee5;
+  --primary: #8b2e42;
+  --primary-foreground: #fffaf3;
+  --border: rgba(244, 238, 229, 0.14);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Manrope", sans-serif;
+  overflow-x: hidden;
+}
+
+button { font: inherit; }
+
+.lantern-letter {
+  background: #101217;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.opening {
+  isolation: isolate;
+  min-height: min(800px, 100svh);
+  padding: 22px max(20px, env(safe-area-inset-right)) 26px max(20px, env(safe-area-inset-left));
+  position: relative;
+  background: radial-gradient(circle at 18% 18%, rgba(139, 46, 66, .22), transparent 24rem), #111319;
+}
+
+.opening::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .3;
+  pointer-events: none;
+  background-image: linear-gradient(135deg, rgba(255,255,255,.035) 25%, transparent 25%), linear-gradient(225deg, rgba(255,255,255,.02) 25%, transparent 25%);
+  background-size: 12px 12px;
+}
+
+.ambient-orb { position: absolute; z-index: -1; filter: blur(1px); opacity: .45; }
+.ambient-orb::before, .ambient-orb::after { content: ""; position: absolute; display: block; border-radius: 70% 0 70% 0; transform: rotate(28deg); }
+.ambient-orb-one { width: 18rem; height: 18rem; top: 13%; left: -9rem; }
+.ambient-orb-one::before { width: 14rem; height: 7rem; background: rgba(139, 46, 66, .35); }.ambient-orb-one::after { width: 7rem; height: 15rem; left: 5rem; top: 3rem; background: rgba(139, 46, 66, .18); }
+.ambient-orb-two { width: 15rem; height: 15rem; right: -5rem; bottom: -3rem; }.ambient-orb-two::before { width: 11rem; height: 6rem; background: rgba(219, 173, 99, .12); }.ambient-orb-two::after { width: 5rem; height: 10rem; left: 4rem; top: 2rem; background: rgba(219, 173, 99, .08); }
+
+.letter-nav, .hero-split, .written-scene > *, .story-section > *, .wish-card, .letter-footer {
+  max-width: 1220px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.letter-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.brand-seal { display: inline-block; width: 29px; height: 29px; object-fit: contain; }
+.brand-lockup { display: inline-flex; align-items: center; gap: 9px; color: #f7f0e8; font-family: "DM Mono", monospace; font-size: 11px; letter-spacing: .06em; }
+.nav-note { color: rgba(244, 238, 229, .56); font-family: "DM Mono", monospace; font-size: 9px; letter-spacing: .05em; text-align: right; }
+
+.hero-split { position: relative; display: grid; gap: 28px; padding-top: clamp(44px, 9vw, 116px); }
+.hero-copy { position: relative; z-index: 2; max-width: 680px; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; color: #d8b26d; font: 500 10px/1.3 "DM Mono", monospace; letter-spacing: .15em; text-transform: uppercase; }
+.eyebrow span { display: inline-block; width: 18px; height: 1px; background: currentColor; }
+
+h1, h2, h3, p { margin-top: 0; }
+h1, h2, h3 { font-family: "Cormorant Garamond", Georgia, serif; }
+h1 { max-width: 760px; margin-bottom: 18px; font-size: clamp(3.7rem, 9vw, 7.5rem); font-weight: 600; letter-spacing: -.06em; line-height: .85; }
+h1 em, h2 em { color: #d77a8f; font-weight: 500; }
+.hero-intro { max-width: 515px; margin-bottom: 24px; color: rgba(244, 238, 229, .72); font-size: 14px; line-height: 1.75; }
+
+.primary-button, .wish-button, .quiet-button { border: 0; cursor: pointer; transition: transform 160ms cubic-bezier(.23, 1, .32, 1), background 160ms ease, color 160ms ease; }
+.primary-button, .wish-button { display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; padding: 15px 19px; background: #8b2e42; color: #fffaf5; box-shadow: 0 13px 28px rgba(0,0,0,.24); font-weight: 700; font-size: 12px; }
+.primary-button:hover, .wish-button:hover { background: #a83d56; transform: translateY(-2px); }
+.primary-button:active, .wish-button:active, .quiet-button:active { transform: scale(.97); }
+.primary-button .brand-seal, .wish-button .brand-seal { width: 17px; height: 17px; filter: brightness(0) invert(1); }
+.wish-button.is-sent .brand-seal, .wish-button:hover .brand-seal { filter: brightness(0) saturate(100%) invert(8%) sepia(17%) saturate(1682%) hue-rotate(307deg) brightness(95%) contrast(92%); }
+.letter-actions { min-height: 48px; display: flex; align-items: center; }
+.quiet-button { display: inline-flex; align-items: center; gap: 8px; padding: 9px 0; color: #ebc7a7; background: transparent; font-size: 12px; font-weight: 600; }
+.quiet-button:hover { color: #fffaf3; }
+.quiet-button svg { width: 15px; height: 15px; }
+
+.hero-visual { position: relative; min-height: 400px; overflow: hidden; border-radius: 20px 20px 3px 3px; box-shadow: 0 32px 55px rgba(0,0,0,.28); }
+.hero-image { position: absolute; inset: 0; background: url('/assets/batool-night-garden-hero.jpg') center/cover; filter: saturate(.8) brightness(.72); transform: scale(1.04); }
+.visual-tint { position: absolute; inset: 0; background: linear-gradient(15deg, rgba(14, 15, 18, .92) 0%, rgba(14,15,18,.04) 68%), linear-gradient(90deg, rgba(11,13,17,.5), transparent); }
+.portrait-frame { position: absolute; right: 7%; bottom: 0; height: 84%; width: min(58%, 310px); padding: 7px 7px 46px; background: #efe6d8; transform: rotate(2.5deg); box-shadow: 0 20px 32px rgba(0,0,0,.28); }
+.portrait-frame img { height: 100%; width: 100%; display: block; object-fit: cover; object-position: 50% 25%; filter: sepia(.06) contrast(.98); }
+.portrait-caption { position: absolute; left: 18px; bottom: 13px; color: #342a26; }
+.portrait-caption span { display: block; font: 500 8px "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+.portrait-caption strong { display: block; font: 600 28px/.9 "Cormorant Garamond", serif; }
+.little-star { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #e5ba70; font-size: 0; box-shadow: 9px 8px 0 -1px rgba(229,186,112,.6), 18px 1px 0 -2px rgba(229,186,112,.75); animation: twinkle 3s ease-in-out infinite; }
+.little-star::after { content: ""; position: absolute; width: 20px; height: 1px; top: 7px; left: 2px; transform: rotate(23deg); transform-origin: left; background: linear-gradient(90deg, rgba(229,186,112,.42), transparent); }
+.star-one { left: 9%; top: 19%; }.star-two { left: 27%; top: 43%; animation-delay: .7s; }.star-three { right: 63%; bottom: 19%; animation-delay: 1.4s; }
+
+.scroll-cue { display: none; }
+
+.written-scene { padding: 80px 20px; background: #1a1b20; }
+.scene-header, .story-heading { max-width: 680px; }
+h2 { margin-bottom: 26px; font-size: clamp(3rem, 6.5vw, 5.5rem); font-weight: 600; letter-spacing: -.055em; line-height: .87; }
+.letter-desk { display: grid; gap: 0; border: 1px solid rgba(244,238,229,.13); background: #0c0e11; box-shadow: 0 28px 55px rgba(0,0,0,.22); }
+.desk-code { position: relative; min-height: 380px; padding: 18px 17px; display: flex; flex-direction: column; overflow: hidden; background: linear-gradient(130deg, rgba(218,202,174,.06), transparent 35%), #171416; }
+.desk-code::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .34; background-image: radial-gradient(rgba(244,238,229,.18) .55px, transparent .6px); background-size: 5px 5px; mix-blend-mode: soft-light; }
+.desk-topline { position: relative; display: flex; align-items: center; gap: 11px; padding-bottom: 14px; border-bottom: 1px solid rgba(244,238,229,.13); color: rgba(244,238,229,.45); font: 10px "DM Mono", monospace; }
+.tiny-seal { width: 19px; height: 19px; filter: sepia(.25) saturate(.7); }
+.code-state { margin-left: auto; color: #d8b26d; }
+.desk-code pre { position: relative; z-index: 1; flex: 1; overflow: auto; margin: 20px 0 16px; white-space: pre-wrap; color: #f4eee5; font: 12px/1.86 "DM Mono", monospace; text-shadow: 0 1px 0 rgba(0,0,0,.3); }
+.desk-code pre::first-line { color: #d77a8f; }
+.cursor { color: #d77a8f; animation: blink 1s steps(2, start) infinite; }
+.code-footnote { position: relative; z-index: 1; color: rgba(244,238,229,.4); font: 10px "DM Mono", monospace; }
+.pressed-petal { position: absolute; z-index: 0; width: 34px; height: 17px; border: 1px solid rgba(139,46,66,.48); border-radius: 75% 0 75% 0; transform: rotate(32deg); }.petal-a { right: 22px; top: 62px; }.petal-b { right: 43px; top: 78px; transform: rotate(116deg) scale(.65); opacity: .6; }
+.desk-ephemera { position: relative; min-height: 300px; overflow: hidden; background: #312520; }
+.desk-ephemera::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(17,12,10,.68)); }
+.desk-ephemera img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: sepia(.13) brightness(.7); }
+.desk-ephemera p { position: absolute; z-index: 1; left: 20px; right: 20px; bottom: 13px; margin: 0; color: #f8e6d4; font: italic 27px/1 "Cormorant Garamond", serif; }
+.wax-seal { position: absolute; z-index: 1; right: 16px; top: 16px; width: 43px; height: 43px; display: grid; place-items: center; border-radius: 50%; background: #8b2e42; box-shadow: inset 2px 2px 4px rgba(255,255,255,.13), 0 5px 12px rgba(0,0,0,.25); }.wax-seal .brand-seal { width: 24px; height: 24px; filter: brightness(0) invert(1); }
+
+.story-section { position: relative; padding: 82px 20px; background: #efe8dc; color: #282026; }
+.section-seal { position: absolute; top: -23px; left: 50%; width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid rgba(139,46,66,.3); border-radius: 50%; background: #efe8dc; transform: translateX(-50%); }.section-seal .brand-seal { width: 25px; height: 25px; }
+.story-heading .eyebrow { color: #8b2e42; }.story-heading h2 { max-width: 670px; color: #282026; }
+.story-thread { display: grid; gap: 1px; background: rgba(66, 49, 38, .17); }
+.memory-card { min-height: 190px; display: grid; grid-template-columns: 48px 1fr; gap: 8px; padding: 28px 10px 31px; background: #efe8dc; }
+.memory-index { color: #8b2e42; font: 500 11px "DM Mono", monospace; }
+.memory-card h3 { margin-bottom: 9px; font-size: 31px; line-height: 1; letter-spacing: -.035em; }.memory-card p { max-width: 380px; margin-bottom: 0; color: #5a4b45; font-size: 13px; line-height: 1.7; }
+
+.birthday-wish { position: relative; padding: 75px 20px; background: #14161b; background-image: linear-gradient(rgba(20,22,27,.84), rgba(20,22,27,.88)), url('/assets/batool-celestial-paper.jpg'); background-position: center; background-size: cover; }
+.wish-card { position: relative; overflow: hidden; padding: 33px 24px 38px; border: 1px solid rgba(244,238,229,.21); background: rgba(18,19,23,.78); box-shadow: 0 28px 55px rgba(0,0,0,.25); backdrop-filter: blur(12px); }.wish-card::before { content: ""; position: absolute; top: -60px; right: -40px; width: 180px; height: 180px; border: 1px solid rgba(216,178,109,.25); border-radius: 50%; }
+.wish-mark { width: 48px; height: 48px; object-fit: contain; margin-bottom: 27px; }.wish-card h2 { max-width: 620px; margin-bottom: 18px; font-size: clamp(3.7rem, 7.7vw, 6rem); }.wish-card > p:not(.eyebrow) { position: relative; max-width: 720px; color: rgba(244,238,229,.75); font-size: 14px; line-height: 1.8; }
+.wish-button { position: relative; margin-top: 8px; background: transparent; border: 1px solid rgba(216,178,109,.72); color: #f4dfbd; box-shadow: none; }.wish-button:hover, .wish-button.is-sent { background: #d8b26d; color: #1f1718; }.wish-button.is-sent { box-shadow: 0 0 34px rgba(216,178,109,.2); }
+.sign-off { position: relative; display: flex; flex-direction: column; gap: 4px; margin-top: 58px; color: #d8b26d; }.sign-off span { font: italic 21px "Cormorant Garamond", serif; }.sign-off strong { font: 600 32px "Cormorant Garamond", serif; letter-spacing: -.03em; }
+
+.letter-footer { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px max(20px, env(safe-area-inset-bottom)); color: rgba(244,238,229,.38); background: #0c0d10; font: 10px "DM Mono", monospace; }.letter-footer .brand-seal { width: 27px; height: 27px; opacity: .55; }
+
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes twinkle { 0%, 100% { opacity: .25; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.08); } }
+
+@media (min-width: 640px) {
+  .opening { padding: 28px 36px 30px; }.hero-split { grid-template-columns: minmax(0, 1fr) minmax(300px, .82fr); align-items: center; gap: 38px; }.hero-visual { min-height: 480px; }.story-thread { grid-template-columns: repeat(3, 1fr); }.memory-card { grid-template-columns: 1fr; padding: 30px 25px; }.memory-index { order: 2; margin-top: 16px; }.letter-desk { grid-template-columns: 1.15fr .85fr; }.desk-code { min-height: 440px; }.desk-ephemera { min-height: 440px; }.wish-card { padding: 60px; }.letter-footer { padding-left: 36px; padding-right: 36px; }
+}
+
+@media (min-width: 960px) {
+  .opening { min-height: 780px; padding: 30px 48px 34px; }.hero-split { gap: clamp(54px, 9vw, 140px); }.hero-visual { min-height: 560px; }.hero-copy { padding-left: 34px; }.scroll-cue { position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; color: rgba(244,238,229,.46); font: 9px "DM Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }.scroll-cue svg { width: 13px; }.written-scene, .story-section { padding: 116px 48px; }.birthday-wish { padding: 120px 48px; }.memory-card { min-height: 255px; padding: 39px 34px; }.memory-card h3 { font-size: 38px; }.hero-intro { font-size: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}

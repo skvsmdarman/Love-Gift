@@ -1,61 +1,24 @@
-> 她不再需要我的爱了。
-> 
-> 不过 demo 还会在，
-> 
-> repo 不会删除，你依然可以按照教程搭建，
-> 
-> 虽然它现在没有任何意义了。
->
-> 但为的是如果某一天可以帮到屏幕前的你。
-> 
-> 如果真的能够帮到，那么不胜荣幸。
->
-> 愿未来能让人有所期待。
+# For Batool — A Birthday Love Gift
 
-> ~~💕情人节快乐！~~
+This branch remakes the original live-written Love-Gift feeling as a personal, English-language birthday letter for Batool. It uses a mobile-first React/Vite interface, a private portrait, and self-contained image assets so the site can be deployed on Vercel.
 
-## ~~Love-Gift 送给子枨的情人节礼物~~
+## Local development
 
-### 效果展示
+Run the following commands with Node.js 20 or newer installed.
 
-[demo](https://love.idealclover.top)
-
-欢迎 star ✨
-
-### 你也想整一个？
-
-#### 方法一：使用 NPM 生成静态文件并部署（推荐）
-
-**适用于对相关编程有所了解的同学**
-
-1. 安装nodejs与npm：[点击这里](http://nodejs.cn/download/)
-2. clone this repository ``` git clone https://github.com/idealclover/Resume.git```
-3. 进入目录并安装依赖 ```npm install```
-4. 进入源码修改相关内容 ```src/index.coffee``` 如注释，参数等
-
-```
-npm run dev //调试模式，实时检测更改并编译
+```bash
+pnpm install
+pnpm dev
 ```
 
-建议 debug 时开启，开启后会试试编译 .coffee 文件为 .js 文件
-做出更改后直接打开 ```dist/index.html``` 查看效果
+## Vercel deployment
 
-```
-npm run build //编译静态文件
-```
+Import this branch in Vercel and retain the repository defaults. The committed `vercel.json` file uses `pnpm build` and deploys the generated `dist/public` folder. No environment variables are required.
 
-生成文件在 ```dist/``` 目录下，可将相关静态文件部署至任何可被公开访问到的服务器（或 GitHub page）
+## Personalization
 
-5. 部署 ```dist/``` 目录下的文件至服务器，测试访问
+The story and final signature live in `client/src/pages/Home.tsx`. The bundled media lives in `client/public/assets/`. Replace the portrait or edit the narrative before sharing publicly if needed.
 
-#### 方案二：下载 release 直接修改
+## Credits
 
-**适合小白**
-
-在 [这里](https://github.com/idealclover/Love-Gift/releases) 下载 whole_version 修改其中的 index.js 文件
-
-### 开源协议
-
-本项目在 [pen#pwlxxp](https://codepen.io/jakealbaugh/pen/PwLXXP) 项目基础上，对布局等进行了改动，采用混合开源协议
-* 源项目部分使用[BOT LICENSE](https://github.com/idealclover/Love-Gift/blob/master/LICENSE_OLD)
-* 本项目更改部分使用 Apache2.0协议 **意思是需要注明原项目出处**
+The experience is an original modern remake inspired by the pacing and live-writing premise of the Love-Gift reference project. No external repository link appears in the public page footer.
