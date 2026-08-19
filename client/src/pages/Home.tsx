@@ -2,7 +2,7 @@
  * Lantern Letter design: an Android-first, contemporary analog love letter.
  * Use ink-navy, paper-ivory, Lantern Mulberry accents, and a calm live-reveal pace.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, RotateCcw, SkipForward } from "lucide-react";
 
 const sealPath = "/assets/batool-brand-mark.png";
@@ -11,23 +11,34 @@ function Seal({ className = "", alt = "Heart and wildflower seal" }: { className
   return <img className={`brand-seal ${className}`} src={sealPath} alt={alt} />;
 }
 
-const letterLines = [
-  "// A birthday letter for Batool",
-  "",
-  "I met you in a random voice chat —",
-  "just looking for someone to talk to.",
-  "",
-  "The admins muted me, and somehow",
-  "you were the one familiar person there.",
-  "",
-  "I asked for friendship, quietly hoping",
-  "you would not say no. You didn't.",
-  "",
-  "Then conversations became comfort,",
-  "comfort became feelings,",
-  "and you became my girlfriend.",
-  "",
-  "// and that changed my everyday life."
+const letterScript = `// Today, we celebrate Batool.
+
+Two months ago, I entered a random voice chat with no big plan — I only wanted the quiet to feel a little less lonely. Then the admins muted me, the room became awkward, and in that strange little moment I saw the one name that felt familiar: yours.
+
+I came to you as a friend, hoping you might let me stay. I did not know that one small hello would become late conversations, soft laughter, little habits, and then something I never expected to find there: you becoming my girlfriend.
+
+Somewhere between our talks, you became the person I look for first. You made ordinary hours feel warmer. You made me care about the small things again — a notification, a voice, a chance to tell you about my day.
+
+We have had fights and misunderstandings too, because what we have is real. But I do not measure us by the hard moments. I measure us by how we come back, how we try to understand, and how we choose to speak gently again after the noise is over. That means more to me than a perfect story ever could.
+
+Being with you has given my days a softer place to land. When I am happy, you are often part of that happiness. When life feels heavy, your presence can make it feel a little easier to carry. I am grateful for every moment we have shared, even the messy ones, because they are ours.
+
+So today is not only your birthday. Today, I celebrate the day this world was given you — your smile, your heart, your patience, your beautiful way of becoming part of my everyday life.
+
+I wish I could be there to hold your hand, bring you something beautiful, and watch you make a wish. Distance makes that impossible today, but it will never make me stop wanting to make you feel loved. I will keep trying, in every way I can, because seeing you happy matters to me.
+
+Happy birthday, Batool. Thank you for being born. Thank you for saying yes to that first friendship. Thank you for becoming you, and for letting me be close to your world.
+
+// written with all my love.
+// Your love, Arman`;
+
+const writingLogs = [
+  { at: 0, label: "opening the letter", detail: "finding the beginning" },
+  { at: 0.12, label: "remembering the first hello", detail: "random voice chat · two months ago" },
+  { at: 0.31, label: "keeping the honest parts", detail: "arguments · understanding · return" },
+  { at: 0.54, label: "writing what you mean to me", detail: "the little happinesses" },
+  { at: 0.76, label: "making a birthday wish", detail: "today, we celebrate Batool" },
+  { at: 0.96, label: "sealing the letter", detail: "signed with love · Arman" }
 ];
 
 const storyCards = [
@@ -53,34 +64,41 @@ const storyCards = [
 
 export default function Home() {
   const [started, setStarted] = useState(false);
-  const [visibleLines, setVisibleLines] = useState(0);
+  const [typedCharacters, setTypedCharacters] = useState(0);
   const [lightSent, setLightSent] = useState(false);
-  const isComplete = visibleLines >= letterLines.length;
-  const visibleLetter = useMemo(
-    () => letterLines.slice(0, visibleLines).join("\n"),
-    [visibleLines]
-  );
+  const letterRef = useRef<HTMLPreElement>(null);
+  const isComplete = typedCharacters >= letterScript.length;
+  const visibleLetter = useMemo(() => letterScript.slice(0, typedCharacters), [typedCharacters]);
+  const progress = typedCharacters / letterScript.length;
+  const activeLog = [...writingLogs].reverse().find((log) => progress >= log.at) ?? writingLogs[0];
 
   useEffect(() => {
     if (!started || isComplete) return;
-    const delay = letterLines[visibleLines] === "" ? 220 : 435;
-    const timer = window.setTimeout(() => setVisibleLines((current) => current + 1), delay);
+    const nextCharacter = letterScript[typedCharacters];
+    const delay = nextCharacter === "\n" ? 280 : /[.!?—]/.test(nextCharacter) ? 150 : /[,;:]/.test(nextCharacter) ? 78 : 27;
+    const timer = window.setTimeout(() => setTypedCharacters((current) => current + 1), delay);
     return () => window.clearTimeout(timer);
-  }, [started, visibleLines, isComplete]);
+  }, [started, typedCharacters, isComplete]);
+
+  useEffect(() => {
+    if (letterRef.current) {
+      letterRef.current.scrollTop = letterRef.current.scrollHeight;
+    }
+  }, [visibleLetter]);
 
   const beginLetter = () => {
-    setVisibleLines(0);
+    setTypedCharacters(0);
     setStarted(true);
   };
 
   const skipWriting = () => {
     setStarted(true);
-    setVisibleLines(letterLines.length);
+    setTypedCharacters(letterScript.length);
   };
 
   const replay = () => {
     setLightSent(false);
-    setVisibleLines(0);
+    setTypedCharacters(0);
     setStarted(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -101,9 +119,9 @@ export default function Home() {
         <div className="hero-split">
           <div className="hero-copy">
             <p className="eyebrow"><span /> A private birthday letter</p>
-            <h1 id="main-title">One unexpected <em>hello</em>, and then you.</h1>
+            <h1 id="main-title">Today, we celebrate <em>Batool.</em></h1>
             <p className="hero-intro">
-              A small story about the random voice chat where I found a friend, then a girlfriend, and now someone who makes ordinary days feel different.
+              The birthday of the girl who turned one unexpected hello into a place I want to come back to, every day.
             </p>
             {!started ? (
               <button className="primary-button" onClick={beginLetter}>
@@ -148,25 +166,34 @@ export default function Home() {
 
       <section className="written-scene" aria-labelledby="written-title">
         <div className="scene-header">
-          <p className="eyebrow"><span /> Live from my heart</p>
-          <h2 id="written-title">I wanted to say it <em>properly.</em></h2>
+          <p className="eyebrow"><span /> Written while you watch</p>
+          <h2 id="written-title">Watch this letter become <em>yours.</em></h2>
         </div>
         <div className="letter-desk">
           <div className="desk-code" aria-live="polite" aria-label="Birthday letter being written">
             <div className="desk-topline">
               <Seal className="tiny-seal" alt="" />
-              <span>batool-birthday.note</span>
-              <span className="code-state">{isComplete ? "letter sealed" : started ? "ink drying…" : "waiting to begin"}</span>
+              <span>batool-birthday.letter</span>
+              <span className="code-state">{isComplete ? "letter sealed" : started ? `${Math.round(progress * 100)}% written` : "waiting to begin"}</span>
             </div>
             <span className="pressed-petal petal-a" aria-hidden="true" />
             <span className="pressed-petal petal-b" aria-hidden="true" />
-            <pre>{visibleLetter || "Press ‘Open your letter’ to begin."}<span className={started && !isComplete ? "cursor" : ""}>|</span></pre>
-            <div className="code-footnote">Every line is true. Every word is yours.</div>
+            <pre ref={letterRef}>{visibleLetter || "Press ‘Open your letter’ to begin."}<span className={started && !isComplete ? "cursor" : ""}>|</span></pre>
+            <div className="code-footnote">{started ? activeLog.detail : "Every line is true. Every word is yours."}</div>
           </div>
           <div className="desk-ephemera">
             <img src="/assets/batool-polaroid-table.jpg" alt="A birthday letter, rose petal, and candle" />
             <p>“The best surprises are the people who make us feel less alone.”</p>
             <div className="wax-seal"><Seal alt="" /></div>
+          </div>
+        </div>
+        <div className="writing-report" aria-live="polite" aria-label="Love letter creation report">
+          <div className="report-heading"><Seal className="tiny-seal" alt="" /><span>letter creation report</span><strong>{started ? `${Math.round(progress * 100)}%` : "ready"}</strong></div>
+          <p className="report-active"><span className="report-pulse" /> {activeLog.label}</p>
+          <div className="report-track">
+            {writingLogs.map((log) => (
+              <span className={progress >= log.at ? "is-done" : ""} key={log.label} title={log.label} />
+            ))}
           </div>
         </div>
       </section>
