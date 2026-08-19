@@ -13,7 +13,7 @@ function Seal({ className = "", alt = "Heart and wildflower seal" }: { className
 
 const letterScript = `// Today, we celebrate Batool.
 
-Two months ago, I entered a random voice chat with no big plan — I only wanted the quiet to feel a little less lonely. Then the admins muted me, the room became awkward, and in that strange little moment I saw the one name that felt familiar: yours.
+Two months ago, I entered a random voice chat with no big plan — I only wanted a bit of random conversation. Then the admins muted me, and honestly, it pissed me off. While I was looking around, I heard a familiar voice — yours.
 
 I came to you as a friend, hoping you might let me stay. I did not know that one small hello would become late conversations, soft laughter, little habits, and then something I never expected to find there: you becoming my girlfriend.
 
@@ -147,7 +147,7 @@ export default function Home() {
             <div className="hero-image" />
             <div className="visual-tint" />
             <div className="portrait-frame">
-              <img src="/assets/batool-portrait.png" alt="Batool" />
+              <img src="/manus-storage/batool-portrait_a7c9fc43.png" alt="Batool" />
               <div className="portrait-caption">
                 <span>today, we celebrate</span>
                 <strong>Batool</strong>
@@ -182,7 +182,7 @@ export default function Home() {
             <div className="code-footnote">{started ? activeLog.detail : "Every line is true. Every word is yours."}</div>
           </div>
           <div className="desk-ephemera">
-            <img src="/assets/batool-polaroid-table.jpg" alt="A birthday letter, rose petal, and candle" />
+            <img src="/manus-storage/batool-polaroid-table_fef064df.jpg" alt="A birthday letter, rose petal, and candle" />
             <p>“The best surprises are the people who make us feel less alone.”</p>
             <div className="wax-seal"><Seal alt="" /></div>
           </div>
