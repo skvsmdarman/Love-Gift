@@ -11,7 +11,7 @@ function Seal({ className = "", alt = "Heart and wildflower seal" }: { className
   return <img className={`brand-seal ${className}`} src={sealPath} alt={alt} />;
 }
 
-const letterScript = `// Today, we celebrate Batool.
+const letterScript = `// Today is Batool's birthday.
 
 Two months ago, I entered a random voice chat with no big plan — I only wanted a bit of random conversation. Then the admins muted me, and honestly, it pissed me off. While I was looking around, I heard a familiar voice — yours.
 
@@ -23,7 +23,7 @@ We have had fights and misunderstandings too, because what we have is real. But 
 
 Being with you has given my days a softer place to land. When I am happy, you are often part of that happiness. When life feels heavy, your presence can make it feel a little easier to carry. I am grateful for every moment we have shared, even the messy ones, because they are ours.
 
-So today is not only your birthday. Today, I celebrate the day this world was given you — your smile, your heart, your patience, your beautiful way of becoming part of my everyday life.
+So today is your birthday — the day this world was given you. I am grateful for your smile, your heart, your patience, and your beautiful way of becoming part of my everyday life.
 
 I wish I could be there to hold your hand, bring you something beautiful, and watch you make a wish. Distance makes that impossible today, but it will never make me stop wanting to make you feel loved. I will keep trying, in every way I can, because seeing you happy matters to me.
 
@@ -37,7 +37,7 @@ const writingLogs = [
   { at: 0.12, label: "remembering the first hello", detail: "random voice chat · two months ago" },
   { at: 0.31, label: "keeping the honest parts", detail: "arguments · understanding · return" },
   { at: 0.54, label: "writing what you mean to me", detail: "the little happinesses" },
-  { at: 0.76, label: "making a birthday wish", detail: "today, we celebrate Batool" },
+  { at: 0.76, label: "making a birthday wish", detail: "today is Batool's birthday" },
   { at: 0.96, label: "sealing the letter", detail: "signed with love · Arman" }
 ];
 
@@ -119,7 +119,7 @@ export default function Home() {
         <div className="hero-split">
           <div className="hero-copy">
             <p className="eyebrow"><span /> A private birthday letter</p>
-            <h1 id="main-title">Today, we celebrate <em>Batool.</em></h1>
+            <h1 id="main-title">Today is <em>Batool's birthday.</em></h1>
             <p className="hero-intro">
               The birthday of the girl who turned one unexpected hello into a place I want to come back to, every day.
             </p>
@@ -147,10 +147,10 @@ export default function Home() {
             <div className="hero-image" />
             <div className="visual-tint" />
             <div className="portrait-frame">
-              <img src="/manus-storage/batool-portrait_a7c9fc43.png" alt="Batool" />
+              <img src="/assets/batool-portrait.png" alt="Batool" />
               <div className="portrait-caption">
-                <span>today, we celebrate</span>
-                <strong>Batool</strong>
+                <span>today is</span>
+                <strong>Batool's birthday</strong>
               </div>
             </div>
             <div className="little-star star-one">✦</div>
