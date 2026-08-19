@@ -15,9 +15,9 @@ const letterScript = `// Today is Batool's birthday.
 
 Two months ago, I entered a random voice chat with no big plan — I only wanted a bit of random conversation. Then the admins muted me, and honestly, it pissed me off. While I was looking around, I heard a familiar voice — yours.
 
-I came to you as a friend, hoping you might let me stay. I did not know that one small hello would become late conversations, soft laughter, little habits, and then something I never expected to find there: you becoming my girlfriend.
+I came to you as a friend, hoping you might let me stay. I did not know that one small hello would become late conversations and then something I never expected to find there: you becoming my girlfriend.
 
-Somewhere between our talks, you became the person I look for first. You made ordinary hours feel warmer. You made me care about the small things again — a notification, a voice, a chance to tell you about my day.
+Somewhere between our talks, you became the person I look for first. You made ordinary hours feel warmer. You made me care about the small things again — a notification, a chance to tell you about my day.
 
 We have had fights and misunderstandings too, because what we have is real. But I do not measure us by the hard moments. I measure us by how we come back, how we try to understand, and how we choose to speak gently again after the noise is over. That means more to me than a perfect story ever could.
 
@@ -150,7 +150,7 @@ export default function Home() {
               <img src="/assets/batool-portrait.png" alt="Batool" />
               <div className="portrait-caption">
                 <span>today is</span>
-                <strong>Batool's birthday</strong>
+                <strong>My girl's birthday</strong>
               </div>
             </div>
             <div className="little-star star-one">✦</div>
@@ -202,7 +202,7 @@ export default function Home() {
         <div className="section-seal"><Seal alt="" /></div>
         <div className="story-heading">
           <p className="eyebrow"><span /> The little things that mattered</p>
-          <h2 id="story-title">This is what I have been trying to tell you.</h2>
+          <h2 id="story-title">This is what I have in my heart.</h2>
         </div>
         <div className="story-thread">
           {storyCards.map((card) => (
